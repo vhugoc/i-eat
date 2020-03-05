@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Libraries\Helpers;
 use App\Models\User;
+use App\Models\Splan;
 
 class UserController extends Controller {
 
@@ -18,7 +19,8 @@ class UserController extends Controller {
     try {
       return response()->json([
         "Helper"   => Helpers::encrypt("teste"),
-        "users"    => User::all()
+        "users"    => User::all(),
+        "splans"   => Splan::all()
       ]);
     } catch (Exception $err) {
       return $err;
@@ -60,6 +62,14 @@ class UserController extends Controller {
         'password'    => ['required', 'min:8'],
         'splan_id'    => ['required', 'max:15']
       ]);
+
+      $splan = Splan::find($request->splan_id);
+      if (!$splan) {
+        return response()->json([
+          "success"   => false,
+          "message"   => "Subscription plan does not exists"
+        ]);
+      }
 
       /**
        * Registering user
