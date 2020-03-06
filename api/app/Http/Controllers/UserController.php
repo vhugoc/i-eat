@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Libraries\Helpers;
 use App\Models\User;
 use App\Models\Splan;
+use App\Models\Sign;
 
 class UserController extends Controller {
 
@@ -28,7 +29,7 @@ class UserController extends Controller {
   }
 
   /**
-   * Show an user.
+   * Show an user
    *
    * @param  Request $request
    * @return Response
@@ -130,26 +131,57 @@ class UserController extends Controller {
         ]);
       }
 
-      $signin = User::where([
+      $login = User::where([
         ['email', '=', $request->email],
         ['password', '=', Helpers::encrypt($request->password)]
       ])->first();
 
-      if (empty($signin)) {
+      if (empty($login)) {
         return response()->json([
           "success"  => false,
           "message"  => "incorrect email/password"
         ]);
       }
 
-      $token = Helpers::generateJWT($signin->id, $signin->email, 'user');
+      $token = Helpers::generateJWT($login->id, $login->email, 'user');
+
+      /**
+       * Registering sign history
+       * 
+       */
+      $sign = new Sign();
+      if ($request->type == "user") {
+        $sign->user_id = $login->id;
+      }
+      $sign->save();
 
       return response()->json([
         "success"   => true,
         "token"     => $token,
-        "user"      => $signin,
+        "user"      => $login,
       ]);
 
+    } catch (Exception $err) {
+      return $err;
+    }
+  }
+
+  /**
+   * Sign out
+   *
+   * @param  Request $request
+   * @return Response
+   */
+  public function signout(Request $request) {
+    try {
+
+      $sign = new Sign();
+      if ($request->token->type == "user") {
+        $sign->user_id = $request->token->id;
+        $sign->action = "out";
+      }
+      $sign->save();
+      
     } catch (Exception $err) {
       return $err;
     }

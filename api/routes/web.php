@@ -19,6 +19,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
      */
     $router->post('/register', 'UserController@register');
     $router->post('/signin', 'UserController@signin');
+    $router->post('/signout', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'UserController@signout']);
     $router->get('/profile', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'UserController@show']);
 
     $router->group(['prefix' => 'user'], function () use ($router) {
