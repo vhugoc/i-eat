@@ -25,4 +25,15 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'user'], function () use ($router) {
         
     });
+
+
+    /**
+     * Posts/Departments Routing
+     * 
+     */
+    $router->group(['prefix' => 'post'], function () use ($router) {
+        $router->get('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@index']);
+        $router->get('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@show']);
+        $router->post('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@add']);
+    });
 });
