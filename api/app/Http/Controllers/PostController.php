@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Libraries\Helpers;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\SPlan;
 
 class PostController extends Controller {
 
@@ -55,6 +57,19 @@ class PostController extends Controller {
         'access'      => ['required', 'max:2', 'integer'],
         'is_active'   => ['required', 'boolean']
       ]);
+
+      /**
+       * Limit validation
+       * 
+       */
+      $limit = SPlan::where('id', '=', User::find($request->token->id)->splan_id)->get()->first()->max_posts;
+      if ((Post::where('user_id', '=', $request->token->id)->count()) == $limit) {
+        return response()->json([
+          "success"   => false,
+          "message"   => "Limit reached"
+        ]);
+      }
+
       $exists = Post::where([
         ['user_id', '=', $request->token->id],
         ['name', '=', $request->name]
