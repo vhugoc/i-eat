@@ -98,10 +98,93 @@ class PostController extends Controller {
    * Update a post
    * 
    * @param Request $request
+   * @param int $id
    * @return Response
    */
   public function update(Request $request, $id) {
     try {
+
+      /**
+       * Data Validation
+       * 
+       */
+      $this->validate($request, [
+        'name'        => ['required', 'string'],
+        'access'      => ['required', 'max:2', 'integer'],
+        'is_active'   => ['required', 'boolean']
+      ]);
+      $exists = Post::where([
+        ['id', '<>', $id],
+        ['user_id', '=', $request->token->id],
+        ['name', '=', $request->name]
+      ])->count();
+
+      if ($exists) {
+        return response()->json([
+          "success"   => false,
+          "message"   => "This post already exists"
+        ]);
+      }
+
+      $post = Post::where([
+        ['id', '=', $id],
+        ['user_id', '=', $request->token->id]
+      ])->get()->first();
+
+      if (!$post) {
+        return response()->json([
+          "success"   => false,
+          "message"   => "This post does not exists"
+        ]);
+      }
+
+      $post->name = $request->name;
+      $post->access = $request->access;
+      $post->is_active = $request->is_active;
+      $post->description = $request->description;
+
+      $post->save();
+
+      return response()->json([
+        "success"   => true,
+        "post"      => $post
+      ]);
+
+    } catch (Exception $err) {
+      return $err;
+    }
+  }
+
+  /**
+   * Delete a post
+   * 
+   * @param Request $request
+   * @param int $id
+   * @return Response
+   */
+  public function delete(Request $request, $id) {
+    try {
+
+      /**
+       * Data Validation
+       * 
+       */
+      $post = Post::where([
+        ['id', '=', $id],
+        ['user_id', '=', $request->token->id]
+      ])->get()->first();
+      if (!$post) {
+        return response()->json([
+          "success"   => false,
+          "message"   => "This post does not exists"
+        ]);
+      }
+
+      $post->delete();
+
+      return response()->json([
+        "success"   => true
+      ]);
 
     } catch (Exception $err) {
       return $err;
