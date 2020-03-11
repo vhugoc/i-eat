@@ -130,4 +130,15 @@ class Helpers {
     date_default_timezone_set($system_constants["timezone"]);
     return Date($_format);
   }
+  /**
+   * Validate a date/time
+   * 
+   * @param string $_date
+   * @param string $_format
+   * @return boolean
+   */
+  public static function validateDate($_date, $_format = 'Y-m-d H:i:s') {
+    $d = \DateTime::createFromFormat($_format, $_date);
+    return $d && $d->format($_format) == $_date;
+  }
 }

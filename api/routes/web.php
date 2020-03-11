@@ -38,4 +38,14 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->put('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@update']);
         $router->delete('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@delete']);
     });
+
+    /**
+     * Employees Routing
+     * 
+     */
+    $router->group(['prefix' => 'employee'], function () use ($router) {
+        $router->get('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@index']);
+        $router->get('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@show']);
+        $router->post('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@add']);
+    });
 });
