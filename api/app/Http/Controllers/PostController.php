@@ -54,7 +54,7 @@ class PostController extends Controller {
        */
       $this->validate($request, [
         'name'        => ['required', 'string'],
-        'access'      => ['required', 'max:2', 'integer'],
+        'access'      => ['required', 'max:6', 'integer'],
         'is_active'   => ['required', 'boolean']
       ]);
 
