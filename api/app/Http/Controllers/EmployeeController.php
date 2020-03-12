@@ -138,7 +138,7 @@ class EmployeeController extends Controller {
   }
 
   /**
-   * Update a post
+   * Update an employee
    * 
    * @param Request $request
    * @param int $id
@@ -153,44 +153,70 @@ class EmployeeController extends Controller {
        */
       $this->validate($request, [
         'name'        => ['required', 'string'],
-        'access'      => ['required', 'max:2', 'integer'],
-        'is_active'   => ['required', 'boolean']
+        'email'       => ['required', 'email'],
+        'password'    => ['required', 'min:8', 'string'],
+        'post_id'     => ['required', 'integer'],
       ]);
-      $exists = Post::where([
-        ['id', '<>', $id],
-        ['user_id', '=', $request->token->id],
-        ['name', '=', $request->name]
-      ])->count();
-
-      if ($exists) {
-        return response()->json([
-          "success"   => false,
-          "message"   => "This post already exists"
-        ]);
+      if (!empty($request->get_in) && !empty($request->get_out)) {
+        if ((!Helpers::validateDate($request->get_in, 'H:i') || !Helpers::validateDate($request->get_out, 'H:i')) || ($request->get_in > $request->get_out)) {
+          return response()->json([
+            "success"   => false,
+            "message"   => "Invalid time"
+          ]);
+        }
       }
-
-      $post = Post::where([
-        ['id', '=', $id],
-        ['user_id', '=', $request->token->id]
-      ])->get()->first();
-
-      if (!$post) {
+      if (Post::where([['user_id', '=', $request->token->id], ['id', '=', $request->post_id]])->count() !== 1) {
         return response()->json([
           "success"   => false,
           "message"   => "This post does not exists"
         ]);
       }
+      
+      $exists = Employee::where([
+        ['id', '<>', $id],
+        ['user_id', '=', $request->token->id],
+        ['email', '=', $request->email]
+      ])->count();
 
-      $post->name = $request->name;
-      $post->access = $request->access;
-      $post->is_active = $request->is_active;
-      $post->description = $request->description;
+      if ($exists) {
+        return response()->json([
+          "success"   => false,
+          "message"   => "This employee already exists"
+        ]);
+      }
 
-      $post->save();
+      $employee = Employee::where([
+        ['id', '=', $id],
+        ['user_id', '=', $request->token->id]
+      ])->get()->first();
+
+      if (!$employee) {
+        return response()->json([
+          "success"   => false,
+          "message"   => "This employee does not exists"
+        ]);
+      }
+
+      $employee->user_id = $request->token->id;
+      $employee->name = $request->name;
+      $employee->email = $request->email; 
+      $employee->password = Helpers::encrypt($request->password);
+      $employee->post_id = $request->post_id;
+      $employee->phone = $request->phone;
+      $employee->landline = $request->landline;
+      $employee->city = $request->city;
+      $employee->district = $request->district;
+      $employee->street = $request->street;
+      $employee->complement = $request->complement;
+      $employee->get_in = $request->get_in;
+      $employee->get_out = $request->get_out;
+      $employee->thumb_uri = $request->thumb_uri;
+
+      $employee->save();
 
       return response()->json([
         "success"   => true,
-        "post"      => $post
+        "employee"  => $employee
       ]);
 
     } catch (Exception $err) {
@@ -199,7 +225,7 @@ class EmployeeController extends Controller {
   }
 
   /**
-   * Delete a post
+   * Delete an employee
    * 
    * @param Request $request
    * @param int $id
@@ -212,18 +238,18 @@ class EmployeeController extends Controller {
        * Data Validation
        * 
        */
-      $post = Post::where([
+      $employee = employee::where([
         ['id', '=', $id],
         ['user_id', '=', $request->token->id]
       ])->get()->first();
-      if (!$post) {
+      if (!$employee) {
         return response()->json([
           "success"   => false,
-          "message"   => "This post does not exists"
+          "message"   => "This employee does not exists"
         ]);
       }
 
-      $post->delete();
+      $employee->delete();
 
       return response()->json([
         "success"   => true
