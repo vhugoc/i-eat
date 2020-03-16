@@ -33,7 +33,10 @@ class PostController extends Controller {
    */
   public function show(Request $request, $id) {
     try {
-      return response()->json(Post::find($id));
+      return response()->json(Post::where([
+        ['user_id', '=', $request->token->id],
+        ['id', '=', $request->id]
+      ])->get()->first());
     } catch (Exception $err) {
       return $err;
     }
