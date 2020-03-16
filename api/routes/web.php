@@ -51,4 +51,16 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->put('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@update']);
         $router->delete('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@delete']);
     });
+
+    /**
+     * Categories Routing
+     * 
+     */
+    $router->group(['prefix' => 'category'], function () use ($router) {
+        $router->get('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@index']);
+        $router->get('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@show']);
+        $router->post('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@add']);
+        $router->put('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@update']);
+        $router->delete('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@delete']);
+    });
 });
