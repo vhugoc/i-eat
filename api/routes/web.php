@@ -35,7 +35,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@index']);
         $router->get('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@show']);
         $router->post('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@add']);
-        $router->put('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@update']);
+        $router->post('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@update']);
         $router->delete('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'PostController@delete']);
     });
 
@@ -47,8 +47,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@index']);
         $router->get('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@show']);
         $router->post('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@add']);
-        $router->put('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@update']);
-        $router->put('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@update']);
+        $router->post('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@update']);
         $router->delete('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'EmployeeController@delete']);
     });
 
@@ -60,7 +59,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@index']);
         $router->get('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@show']);
         $router->post('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@add']);
-        $router->put('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@update']);
+        $router->post('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@update']);
         $router->delete('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@delete']);
     });
 });
