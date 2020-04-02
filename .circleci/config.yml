@@ -9,10 +9,6 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:7.3-node-browsers
 
-      commands:
-        - '# Execute Amplify CLI with the helper script'
-        - amplifyPushFyz
-
     steps:
       - checkout
 
