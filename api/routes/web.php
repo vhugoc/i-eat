@@ -62,4 +62,16 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@update']);
         $router->delete('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'CategoryController@delete']);
     });
+
+    /**
+     * Products Routing
+     * 
+     */
+    $router->group(['prefix' => 'product'], function () use ($router) {
+        $router->get('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ProductController@index']);
+        $router->get('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ProductController@show']);
+        $router->post('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ProductController@add']);
+        $router->post('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ProductController@update']);
+        $router->delete('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ProductController@delete']);
+    });
 });
