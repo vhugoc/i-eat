@@ -21,7 +21,7 @@ Victor Hugo – [@vhugoc](https://www.linkedin.com/in/vhugoc/) – vhuugoc@gmail
 
 ## Contribuição
 1. Fork (<https://github.com/vhugoc/i-eat/fork>)
-2. Crie a branch de sua feature (`git checkout -b feature/fooBar`)
-3. Dê o seu commit (`git commit -am 'Tipo de Alteração: Descrição'`)
+2. Crie a branch da feature (`git checkout -b feature/fooBar`)
+3. Commit (`git commit -am 'Tipo de Alteração: Descrição'`)
 4. Push (`git push origin feature/fooBar`)
 5. Crie um novo Pull Request
