@@ -5,7 +5,7 @@
 ## Visão Geral
 O principal foco do projeto, é facilitar as tarefas de uma pequena empresa. Levando em conta que esse nicho em específico, possui muitos problemas ao controlar o fluxo de caixa, visualizar dados, registrar vendas e controlar o atendimento da forma em que deseja.
 
-O projeto possui diversas features para cada plano de assinatura, onde qualquer empresa poderá acessar e criar uma conta grátis com algumas limitações.
+O projeto possui diversas features para cada plano de assinatura, onde qualquer empresa poderá acessar e criar uma conta grátis com algumas limitações - de acordo com o plano.
 
 ## Fluxo de Desenvolvimento
 A `API` está em desenvolvimento e as estilizações ainda não foram definidas.
