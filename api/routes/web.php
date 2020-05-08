@@ -52,7 +52,19 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     /**
-     * Categories Routing
+     * Clients Routing
+     * 
+     */
+    $router->group(['prefix' => 'client'], function () use ($router) {
+        $router->get('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ClientController@index']);
+        $router->get('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ClientController@show']);
+        $router->post('/', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ClientController@add']);
+        $router->post('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ClientController@update']);
+        $router->delete('/{id}', ['middleware' => App\Http\Middleware\AuthorizationMiddleware::class, 'uses' => 'ClientController@delete']);
+    });
+
+    /**
+     * Product Categories Routing
      * 
      */
     $router->group(['prefix' => 'category'], function () use ($router) {
